@@ -1,0 +1,26 @@
+--source include/have_innodb.inc
+
+CREATE TABLE `t` (`id` int(11) NOT NULL, `f` varchar(100) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+
+--disable_query_log
+--let $c=1
+while ($c<100)
+{
+--eval insert into t values($c, md5($c))
+--inc $c
+}
+--enable_query_log
+
+select count(*) from t;
+
+--exec $MYSQL_DUMP test > $MYSQL_TEST_DIR/var/tmp/mtr_amer_5.sql
+--exec ls $MYSQL_TEST_DIR/var/tmp/
+
+drop table t;
+show tables;
+
+--exec $MYSQL test < $MYSQL_TEST_DIR/var/tmp/mtr_amer_5.sql
+show tables;
+select count(*) from t;
+
+drop table if exists t;

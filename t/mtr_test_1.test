@@ -1,0 +1,9 @@
+#--source include/have_innodb.inc
+source include/have_innodb.inc;
+
+CREATE TABLE `t` (`id` int(11) NOT NULL, `f` varchar(100) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+insert into t values(12345, 'value1'), (54321, 'value2');
+select * from t;
+show create table t;
+
+drop table if exists t;

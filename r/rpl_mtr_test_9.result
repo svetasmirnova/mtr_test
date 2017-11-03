@@ -1,0 +1,46 @@
+include/rpl_init.inc [topology=1->2,2->3,3->1]
+Warnings:
+Note	####	Sending passwords in plain text without SSL/TLS is extremely insecure.
+Note	####	Storing MySQL user name or password information in the master info repository is not secure and is therefore not recommended. Please consider using the USER and PASSWORD connection options for START SLAVE; see the 'START SLAVE Syntax' in the MySQL Manual for more information.
+Warnings:
+Note	####	Sending passwords in plain text without SSL/TLS is extremely insecure.
+Note	####	Storing MySQL user name or password information in the master info repository is not secure and is therefore not recommended. Please consider using the USER and PASSWORD connection options for START SLAVE; see the 'START SLAVE Syntax' in the MySQL Manual for more information.
+Warnings:
+Note	####	Sending passwords in plain text without SSL/TLS is extremely insecure.
+Note	####	Storing MySQL user name or password information in the master info repository is not secure and is therefore not recommended. Please consider using the USER and PASSWORD connection options for START SLAVE; see the 'START SLAVE Syntax' in the MySQL Manual for more information.
+[connection server_1]
+create table t1(id int) engine=innodb;
+insert into t1 values(1);
+[connection server_2]
+create table t2(id int) engine=innodb;
+insert into t2 values(2);
+[connection server_3]
+create table t3(id int) engine=innodb;
+insert into t3 values(3);
+[connection server_1]
+show tables;
+Tables_in_test
+t1
+t2
+t3
+select * from t1, t2, t3;
+id	id	id
+1	2	3
+[connection server_2]
+show tables;
+Tables_in_test
+t1
+t2
+t3
+select * from t1, t2, t3;
+id	id	id
+1	2	3
+[connection server_3]
+show tables;
+Tables_in_test
+t1
+t2
+t3
+select * from t1, t2, t3;
+id	id	id
+1	2	3

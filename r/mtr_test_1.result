@@ -1,0 +1,14 @@
+CREATE TABLE `t` (`id` int(11) NOT NULL, `f` varchar(100) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+insert into t values(12345, 'value1'), (54321, 'value2');
+select * from t;
+id	f
+12345	value1
+54321	value2
+show create table t;
+Table	Create Table
+t	CREATE TABLE `t` (
+  `id` int(11) NOT NULL,
+  `f` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+drop table if exists t;

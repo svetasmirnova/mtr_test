@@ -1,0 +1,41 @@
+--let $rpl_topology= 1->2,2->3,3->1
+--source include/rpl_init.inc
+
+# On server 1
+--let $rpl_connection_name= server_1
+--source include/rpl_connection.inc
+create table t1(id int) engine=innodb;
+insert into t1 values(1);
+
+# On server 2
+--let $rpl_connection_name= server_2
+--source include/rpl_connection.inc
+create table t2(id int) engine=innodb;
+insert into t2 values(2);
+
+# On server 3
+--let $rpl_connection_name= server_3
+--source include/rpl_connection.inc
+create table t3(id int) engine=innodb;
+ insert into t3 values(3);
+
+--sleep 5
+# On server 1
+--let $rpl_connection_name= server_1
+--source include/rpl_connection.inc
+show tables;
+select * from t1, t2, t3;
+
+# On server 2
+--let $rpl_connection_name= server_2
+--source include/rpl_connection.inc
+show tables;
+select * from t1, t2, t3;
+
+# On server 3
+--let $rpl_connection_name= server_3
+--source include/rpl_connection.inc
+show tables;
+select * from t1, t2, t3;
+
+

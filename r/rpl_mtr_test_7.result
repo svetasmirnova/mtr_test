@@ -1,0 +1,87 @@
+include/master-slave.inc
+Warnings:
+Note	####	Sending passwords in plain text without SSL/TLS is extremely insecure.
+Note	####	Storing MySQL user name or password information in the master info repository is not secure and is therefore not recommended. Please consider using the USER and PASSWORD connection options for START SLAVE; see the 'START SLAVE Syntax' in the MySQL Manual for more information.
+[connection master]
+CREATE TABLE `t` (`id` int(11) NOT NULL, `f` varchar(100) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+insert into t values(12345, 'value1'), (54321, 'value2');
+select * from t;
+id	f
+12345	value1
+54321	value2
+show create table t;
+Table	Create Table
+t	CREATE TABLE `t` (
+  `id` int(11) NOT NULL,
+  `f` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+show slave status;
+Slave_IO_State	Waiting for master to send event
+Master_Host	127.0.0.1
+Master_User	root
+Master_Port	13001
+Connect_Retry	1
+Master_Log_File	master-bin.000001
+Read_Master_Log_Pos	672
+Relay_Log_File	slave-relay-bin.000002
+Relay_Log_Pos	369
+Relay_Master_Log_File	master-bin.000001
+Slave_IO_Running	Yes
+Slave_SQL_Running	Yes
+Replicate_Do_DB	
+Replicate_Ignore_DB	
+Replicate_Do_Table	
+Replicate_Ignore_Table	
+Replicate_Wild_Do_Table	
+Replicate_Wild_Ignore_Table	
+Last_Errno	0
+Last_Error	
+Skip_Counter	0
+Exec_Master_Log_Pos	154
+Relay_Log_Space	1094
+Until_Condition	None
+Until_Log_File	
+Until_Log_Pos	0
+Master_SSL_Allowed	No
+Master_SSL_CA_File	
+Master_SSL_CA_Path	
+Master_SSL_Cert	
+Master_SSL_Cipher	
+Master_SSL_Key	
+Seconds_Behind_Master	1
+Master_SSL_Verify_Server_Cert	No
+Last_IO_Errno	0
+Last_IO_Error	
+Last_SQL_Errno	0
+Last_SQL_Error	
+Replicate_Ignore_Server_Ids	
+Master_Server_Id	1
+Master_UUID	4758422e-c07a-11e7-9173-9cb6d0d79cb7
+Master_Info_File	/home/sveta/build/ps-5.7/mysql-test/var/mysqld.2/data/master.info
+SQL_Delay	0
+SQL_Remaining_Delay	NULL
+Slave_SQL_Running_State	creating table
+Master_Retry_Count	10
+Master_Bind	
+Last_IO_Error_Timestamp	
+Last_SQL_Error_Timestamp	
+Master_SSL_Crl	
+Master_SSL_Crlpath	
+Retrieved_Gtid_Set	4758422e-c07a-11e7-9173-9cb6d0d79cb7:1-2
+Executed_Gtid_Set	
+Auto_Position	1
+Replicate_Rewrite_DB	
+Channel_Name	
+Master_TLS_Version	
+update t set f='foo';
+select * from t;
+id	f
+12345	foo
+54321	foo
+select * from t;
+id	f
+12345	foo
+54321	foo
+drop table if exists t;
+stop slave;

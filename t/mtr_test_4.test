@@ -1,0 +1,30 @@
+--source include/have_innodb.inc
+
+CREATE TABLE `t` (`id` int(11) NOT NULL, `f` varchar(100) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+insert into t values(12345, 'value1'), (54321, 'value2');
+
+begin;
+select * from t where id=12345 for update;
+
+--connect(addconroot,localhost,root,,)
+--connection addconroot
+begin;
+select * from t where id=54321 for update;
+
+--connection default
+--send update t set f='value3' where id=54321
+
+--connection addconroot
+#--error 1213
+update t set f='value3' where id=12345;
+
+--connection default
+--error 1213
+--reap
+rollback;
+
+--connection addconroot
+rollback;
+
+--connection default
+drop table if exists t;

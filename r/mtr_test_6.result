@@ -1,0 +1,20 @@
+CREATE TABLE `t` (`id` int(11) NOT NULL, `f` varchar(100) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+select count(*) from t;
+count(*)
+99
+check-mysqld_1.log
+check-mysqld_1.result
+mtr_amer_5.sql
+mysqld.1
+mysqld.1.sock
+mysqld.1.sock.lock
+drop table t;
+show tables;
+Tables_in_test
+show tables;
+Tables_in_test
+t
+select count(*) from t;
+count(*)
+99
+drop table if exists t;

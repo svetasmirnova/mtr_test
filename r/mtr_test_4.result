@@ -1,0 +1,16 @@
+CREATE TABLE `t` (`id` int(11) NOT NULL, `f` varchar(100) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+insert into t values(12345, 'value1'), (54321, 'value2');
+begin;
+select * from t where id=12345 for update;
+id	f
+12345	value1
+begin;
+select * from t where id=54321 for update;
+id	f
+54321	value2
+update t set f='value3' where id=54321;
+update t set f='value3' where id=12345;
+ERROR 40001: Deadlock found when trying to get lock; try restarting transaction
+rollback;
+rollback;
+drop table if exists t;

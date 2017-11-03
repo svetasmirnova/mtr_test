@@ -1,0 +1,23 @@
+CREATE TABLE `t` (`id` int(11) NOT NULL, `f` varchar(100) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+insert into t values(12345, 'value1'), (54321, 'value2');
+select * from t;
+id	f
+12345	value1
+54321	value2
+check-mysqld_1.log
+check-mysqld_1.result
+mtr_amer_5.sql
+mysqld.1
+mysqld.1.sock
+mysqld.1.sock.lock
+drop table t;
+show tables;
+Tables_in_test
+show tables;
+Tables_in_test
+t
+select * from t;
+id	f
+12345	value1
+54321	value2
+drop table if exists t;

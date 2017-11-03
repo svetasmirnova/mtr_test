@@ -1,0 +1,28 @@
+--source include/master-slave.inc
+--source include/have_innodb.inc
+
+# We are on master
+CREATE TABLE `t` (`id` int(11) NOT NULL, `f` varchar(100) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+insert into t values(12345, 'value1'), (54321, 'value2');
+select * from t;
+show create table t;
+
+--connection slave
+--vertical_results
+show slave status;
+
+--connection master
+--horizontal_results
+update t set f='foo';
+select * from t;
+
+#We are on master
+--sync_slave_with_master
+#We are on slave
+select * from t;
+
+--connection master
+drop table if exists t;
+
+--sync_slave_with_master
+stop slave;

@@ -1,0 +1,17 @@
+--source include/have_innodb.inc
+
+CREATE TABLE `t` (`id` int(11) NOT NULL, `f` varchar(100) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;
+insert into t values(12345, 'value1'), (54321, 'value2');
+
+delimiter |;
+create procedure p1() 
+begin
+select * from t limit 1,1;
+select * from t limit 2,1;
+end
+|
+
+delimiter ;|
+call p1();
+
+drop table if exists t;
